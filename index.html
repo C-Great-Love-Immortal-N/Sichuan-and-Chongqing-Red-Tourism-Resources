@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>川渝红旅 - 红色资源数字巡礼</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #c4322f;
+            --gold: #f5d76e;
+            --dark-bg: #1a2a3a;
+            --darker-bg: #2c3e50;
+            --text-light: #f5f5f5;
+            --text-gray: #ccc;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Microsoft YaHei', sans-serif; 
+            background: linear-gradient(to bottom, var(--dark-bg), var(--darker-bg));
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(196, 50, 47, 0.95);
+            padding: 0.8rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            animation: glow 2s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-title i {
+            margin-right: 10px;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px var(--primary-red), 0 0 20px var(--gold); }
+            50% { text-shadow: 0 0 20px var(--gold), 0 0 30px var(--primary-red); }
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--gold);
+            bottom: -5px;
+            left: 0;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 页首样式 */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 6rem 1rem 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-red), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientMove 5s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        header p { 
+            font-size: 1.2rem; 
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            animation: fadeIn 2s ease-in;
+        }
+        
+        .header-btn {
+            display: inline-block;
+            background: var(--primary-red);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .header-btn:hover {
+            background: var(--gold);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 主要内容区域 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            color: var(--gold);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-red), var(--gold));
+        }
+
+        /* 景点卡片样式 */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .attraction-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .attraction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .attraction-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-content h3 i {
+            margin-right: 10px;
+        }
+        
+        .card-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .card-content .location {
+            color: var(--gold);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .read-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .read-more:hover {
+            color: var(--gold);
+        }
+
+        /* 地图部分 */
+        .map-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+        
+        .map-container {
+            position: relative;
+            display: inline-block;
+            margin: 1rem auto;
+        }
+        
+        .sichuan-map {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border: 2px solid var(--primary-red);
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+        
+        .map-marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-red);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 0 rgba(196, 50, 47, 0.8);
+            animation: pulse 2s infinite;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .map-marker:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            background-color: var(--gold);
+        }
+        
+        .map-marker::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .map-marker:hover::after {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(196, 50, 47, 0.8); }
+            70% { box-shadow: 0 0 0 12px rgba(196, 50, 47, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(196, 50, 47, 0); }
+        }
+        
+        /* 详情模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+        
+        .modal-content {
+            background: var(--darker-bg);
+            max-width: 900px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            background: var(--primary-red);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .modal-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 巡游路线游戏部分 */
+        .tour-game {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+        
+        .tour-progress {
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-red), var(--gold));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .tour-stops {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .tour-stop {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--darker-bg);
+            border: 3px solid var(--text-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .tour-stop.active {
+            background: var(--gold);
+            border-color: var(--primary-red);
+            transform: scale(1.1);
+        }
+        
+        .tour-stop.completed {
+            background: var(--primary-red);
+            border-color: var(--gold);
+        }
+        
+        .tour-stop i {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .tour-stop-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .tour-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .tour-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tour-btn:hover {
+            background: var(--gold);
+            color: var(--dark-bg);
+        }
+        
+        .tour-btn:disabled {
+            background: var(--text-gray);
+            cursor: not-allowed;
+        }
+        
+        .tour-info {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .tour-info h3 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--text-gray);
+            margin-top: 5rem;
+            border-top: 1px solid #333;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+        .social-links {
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .nav-links a {
+                margin: 0 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            .attractions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-title {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(196, 50, 47, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                margin: 0.5rem 0;
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            header {
+                padding: 4rem 1rem 2rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .attractions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-image {
+                height: 200px;
+            }
+            
+            .modal-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-section {
+                padding: 1.5rem;
+            }
+            
+            .tour-stops {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .tour-stop {
+                margin: 0 5px 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .card-content {
+                padding: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
+            
+            .tour-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tour-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* 图片加载失败样式 */
+        .img-fallback {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3a3a3a, #2c2c2c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-title"><i class="fas fa-landmark"></i>川渝红旅</div>
+        <div class="nav-links" id="navLinks">
+            <a href="#luding"><i class="fas fa-monument"></i> 泸定桥</a>
+            <a href="#baigongguan"><i class="fas fa-landmark"></i> 白公馆</a>
+            <a href="#zhazidong"><i class="fas fa-dungeon"></i> 渣滓洞</a>
+            <a href="#zhude"><i class="fas fa-home"></i> 朱德故居</a>
+            <a href="#map"><i class="fas fa-map-marked-alt"></i> 旅游地图</a>
+            <a href="#tour"><i class="fas fa-route"></i> 巡游路线</a>
+        </div>
+        <button class="mobile-menu-btn" id="menuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <h1>川渝红色旅游资源数字巡礼</h1>
+            <p>追寻红色印记，传承伟大精神 - 纪念中国人民抗日战争暨世界反法西斯战争胜利80周年</p>
+            <a href="#attractions" class="header-btn">探索景点 <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">红色景点精选</h2>
+        
+        <div class="attractions-grid" id="attractions">
+            <!-- 泸定桥景点卡片 -->
+            <div class="attraction-card" id="luding">
+                <div class="card-image">
+                    <img src="https://ldfile.ganzitv.com/cms/2024-10-20/10834088/18C86AD3F03B7A6F7C4CE35BCD5C1F61.jpeg" alt="泸定桥" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-monument"></i> 泸定桥</h3>
+                    <span class="location">四川省甘孜藏族自治州泸定县</span>
+                    <p>中国工农红军在长征途中"飞夺泸定桥"的伟大战役发生地，是"大渡桥横铁索寒"革命英雄主义的真实写照，长征精神的重要象征。</p>
+                    <a href="#" class="read-more" data-target="luding-details">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- 白公馆景点卡片 -->
+            <div class="attraction-card" id="baigongguan">
+                <div class="card-image">
+                    <img src="https://www.cq.gov.cn/zjcq/cycq/jplyxl/dsy/hyzj/202409/W020240905610384237436.jpg" alt="白公馆" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1593696141535-6f4effa5bd38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-landmark"></i> 白公馆</h3>
+                    <span class="location">重庆市沙坪坝区歌乐山</span>
+                    <p>国民党军统特务机关关押革命志士的秘密监狱，见证了杨虎城将军及小萝卜头等烈士的悲壮事迹。</p>
+                    <a href="#" class="read-more" data-target="baigongguan-details">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- 渣滓洞景点卡片 -->
+            <div class="attraction-card" id="zhazidong">
+                <div class="card-image">
+                    <img src="https://img0.baidu.com/it/u=1396190442,3123471281&fm=253&app=138&f=JPEG?w=800&h=1067" alt="渣滓洞" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-dungeon"></i> 渣滓洞</h3>
+                    <span class="location">重庆市沙坪坝区歌乐山麓</span>
+                    <p>关押过江竹筠、许晓轩等革命烈士的监狱，记录了共产党人在白色恐怖下坚贞不屈的斗争史。</p>
+                    <a href="#" class="read-more" data-target="zhazidong-details">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- 朱德故居景点卡片 -->
+            <div class="attraction-card" id="zhude">
+                <div class="card-image">
+                    <img src="https://bkimg.cdn.bcebos.com/pic/08f790529822720e2b3bc64d7ccb0a46f31fab8b" alt="朱德故居" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-home"></i> 朱德故居</h3>
+                    <span class="location">四川省仪陇县马鞍镇</span>
+                    <p>朱德同志故居纪念馆是缅怀朱德同志丰功伟绩、进行革命传统教育和爱国主义教育的重要基地。</p>
+                    <a href="#" class="read-more" data-target="zhude-details">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title" id="map">川渝红色旅游地图</h2>
+        
+        <div class="map-section">
+            <p>点击地图上的标记，探索川渝地区红色旅游景点</p>
+            <div class="map-container">
+                <img src="https://p2.itc.cn/images01/20230223/c0ad3d3686ed451e84d22344fce277ee.jpeg" alt="四川省地图" class="sichuan-map">
+                <div class="map-marker" style="top: 30%; left: 25%;" data-name="泸定桥"></div>
+                <div class="map-marker" style="top: 75%; left: 58%;" data-name="白公馆"></div>
+                <div class="map-marker" style="top: 77%; left: 59%;" data-name="渣滓洞"></div>
+                <div class="map-marker" style="top: 55%; left: 55%;" data-name="朱德故居"></div>
+            </div>
+        </div>
+        
+        <div class="map-section">
+            <p>重庆市红色旅游地图</p>
+            <div class="map-container">
+                <img src="https://q2.itc.cn/q_70/images03/20240124/d95d4c46f32f4fcca551b1cd3287bbb5.jpeg" alt="重庆市地图" class="sichuan-map">
+                <div class="map-marker" style="top: 40%; left: 50%;" data-name="白公馆"></div>
+                <div class="map-marker" style="top: 42%; left: 48%;" data-name="渣滓洞"></div>
+                <div class="map-marker" style="top: 45%; left: 52%;" data-name="曾家岩50号"></div>
+            </div>
+        </div>
+        
+        <h2 class="section-title" id="tour">红色巡游路线</h2>
+        
+        <div class="tour-game">
+            <p>模拟巡游川渝地区的红色景点，完成打卡任务，了解革命历史！</p>
+            
+            <div class="tour-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="tour-stops">
+                    <div class="tour-stop completed" data-stop="0">
+                        <i class="fas fa-play-circle"></i>
+                        <div class="tour-stop-label">起点</div>
+                    </div>
+                    <div class="tour-stop" data-stop="1">
+                        <i class="fas fa-monument"></i>
+                        <div class="tour-stop-label">泸定桥</div>
+                    </div>
+                    <div class="tour-stop" data-stop="2">
+                        <i class="fas fa-landmark"></i>
+                        <div class="tour-stop-label">白公馆</div>
+                    </div>
+                    <div class="tour-stop" data-stop="3">
+                        <i class="fas fa-dungeon"></i>
+                        <div class="tour-stop-label">渣滓洞</div>
+                    </div>
+                    <div class="tour-stop" data-stop="4">
+                        <i class="fas fa-home"></i>
+                        <div class="tour-stop-label">朱德故居</div>
+                    </div>
+                    <div class="tour-stop" data-stop="5">
+                        <i class="fas fa-flag-checkered"></i>
+                        <div class="tour-stop-label">终点</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tour-controls">
+                <button class="tour-btn" id="prevStop"><i class="fas fa-arrow-left"></i> 上一站</button>
+                <button class="tour-btn" id="nextStop">下一站 <i class="fas fa-arrow-right"></i></button>
+                <button class="tour-btn" id="completeTour"><i class="fas fa-check-circle"></i> 完成打卡</button>
+            </div>
+            
+            <div class="tour-info" id="tourInfo">
+                <h3>欢迎开始红色巡游之旅！</h3>
+                <p>点击"下一站"按钮开始您的红色景点巡游，了解每个景点的历史意义。</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title">景点图库</h2>
+        
+        <div class="attractions-grid">
+            <!-- 泸定桥图集 -->
+            <div class="attraction-card">
+                <div class="card-image">
+                    <img src="https://q7.itc.cn/images01/20240603/719c852024f24303ae3ff9fc866054ab.png" alt="泸定桥远景" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-image"></i> 泸定桥远景</h3>
+                    <p>泸定桥横跨大渡河，是红军长征途中"飞夺泸定桥"战役的历史见证。</p>
+                </div>
+            </div>
+            
+            <!-- 白公馆图集 -->
+            <div class="attraction-card">
+                <div class="card-image">
+                    <img src="https://www.cq.gov.cn/zjcq/cycq/jplyxl/dsy/hyzj/202409/W020240905610386953425.jpg" alt="白公馆内部" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1593696141535-6f4effa5bd38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-image"></i> 白公馆内部</h3>
+                    <p>白公馆内部展示了革命先烈被关押的环境和历史文物。</p>
+                </div>
+            </div>
+            
+            <!-- 朱德故居图集 - 增加新照片 -->
+            <div class="attraction-card">
+                <div class="card-image">
+                    <img src="https://p8.itc.cn/q_70/images03/20220804/e8014822714d472ebef8995f31ddc13b.png" alt="朱德故居内部" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-image"></i> 朱德故居内部</h3>
+                    <p>朱德同志故居内部陈设，展示了朱德同志简朴的生活环境。</p>
+                </div>
+            </div>
+            
+            <!-- 朱德故居图集 -->
+            <div class="attraction-card">
+                <div class="card-image">
+                    <img src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2024%2F0912%2F6c1bfb43j00sjojxh003gd000xc00nkm.jpg&thumbnail=660x2147483647&quality=80&type=jpg" alt="朱德故居全景" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                </div>
+                <div class="card-content">
+                    <h3><i class="fas fa-image"></i> 朱德故居全景</h3>
+                    <p>朱德同志故居纪念馆全景，庄严肃穆，环境优美。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情模态框 -->
+    <div class="modal" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">景点详情</h3>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 内容由JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 川渝红色旅游资源数字巡礼 | 纪念抗日战争暨世界反法西斯战争胜利80周年</p>
+        <p>设计制作：L.K.R.</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-weixin"></i></a>
+            <a href="#"><i class="fab fa-weibo"></i></a>
+            <a href="#"><i class="fab fa-qq"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // 地图标记点击事件
+        document.querySelectorAll('.map-marker').forEach(marker => {
+            marker.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-name');
+                let elementId;
+                
+                switch(targetId) {
+                    case '泸定桥':
+                        elementId = 'luding';
+                        break;
+                    case '白公馆':
+                        elementId = 'baigongguan';
+                        break;
+                    case '渣滓洞':
+                        elementId = 'zhazidong';
+                        break;
+                    case '朱德故居':
+                        elementId = 'zhude';
+                        break;
+                }
+                
+                if (elementId) {
+                    document.getElementById(elementId).scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // 关闭移动端菜单
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // 导航栏链接点击事件
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                
+                document.getElementById(targetId).scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // 关闭移动端菜单
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // 详情模态框功能
+        const modal = document.getElementById('details-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const closeModal = document.getElementById('close-modal');
+        
+        // 景点详情数据
+        const detailsData = {
+            'luding-details': {
+                title: '泸定桥',
+                content: `
+                    <p><strong>历史意义：</strong> 泸定桥又称铁索桥，位于四川省泸定县大渡河上。1935年5月29日，中国工农红军长征途经这里，以22位勇士为先导的突击队，冒着敌人的枪林弹雨，匍匐前进，一举消灭桥头守卫，红军遂过大渡河。泸定桥因此而闻名中外。</p>
+                    <p><strong>建筑特色：</strong> 泸定桥始建于1705年，是中国古代桥梁建筑的杰作。桥长103.67米，宽3米，由13根铁链组成，其中底链9根，扶手4根。每根铁链由862至997个铁环相扣，总重达21吨左右。</p>
+                    <p><strong>参观价值：</strong> 泸定桥不仅是红军长征的重要历史见证，也是中国古代桥梁建筑的杰出代表。参观泸定桥可以感受到革命先烈不畏艰难、勇往直前的革命精神，同时也能欣赏到古代工匠的精湛技艺。</p>
+                    <div class="modal-gallery">
+                        <img src="https://ldfile.ganzitv.com/cms/2024-10-20/10834088/18C86AD3F03B7A6F7C4CE35BCD5C1F61.jpeg" alt="泸定桥全景" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://q7.itc.cn/images01/20240603/719c852024f24303ae3ff9fc866054ab.png" alt="泸定桥远景" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://inews.gtimg.com/newsapp_bt/0/13324852302/1000" alt="泸定桥近景" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <p><strong>参观信息：</strong> 开放时间：8:00-18:00；门票价格：10元/人。建议参观时间：1-2小时。</p>
+                    <p><strong>交通指南：</strong> 从成都出发，可乘坐长途汽车或自驾前往泸定县，车程约3-4小时。也可乘坐火车到康定，再转乘汽车前往。</p>
+                `
+            },
+            'baigongguan-details': {
+                title: '白公馆',
+                content: `
+                    <p><strong>历史意义：</strong> 白公馆原为四川军阀白驹的别墅，故名白公馆。1943年中美合作所成立后，白公馆改为中美合作所第三招待所，后改为监狱。抗日爱国将领黄显声，共产党员宋绮云、徐林侠夫妇及幼子"小萝卜头"等均是被囚禁于此。</p>
+                    <p><strong>建筑布局：</strong> 白公馆是一处四周有高墙、电网的封闭式建筑群，内有牢房、刑讯洞、看守所长室等，再现了当年关押革命者的场景。</p>
+                    <p><strong>参观价值：</strong> 白公馆是国民党反动派残酷迫害革命者的历史见证，也是革命先烈坚贞不屈、英勇斗争的精神象征。参观白公馆可以深入了解中国革命历史的艰辛历程，感受革命先烈的崇高精神。</p>
+                    <div class="modal-gallery">
+                        <img src="https://www.cq.gov.cn/zjcq/cycq/jplyxl/dsy/hyzj/202409/W020240905610384237436.jpg" alt="白公馆大门" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1593696141535-6f4effa5bd38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://www.cq.gov.cn/zjcq/cycq/jplyxl/dsy/hyzj/202409/W020240905610386953425.jpg" alt="白公馆内部" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1593696141535-6f4effa5bd38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://qcloud.dpfile.com/pc/gXAaK5fstIKmorwbjdbNsIOzEcgjfLgiNDe-5COJDAh4NdJMja_-2iwACqWuXMbu.jpg" alt="白公馆内部牢房" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1593696141535-6f4effa5bd38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <p><strong>参观信息：</strong> 开放时间：9:00-17:00（周一闭馆）；免费参观，需提前预约。建议参观时间：1-2小时。</p>
+                    <p><strong>交通指南：</strong> 位于重庆市沙坪坝区歌乐山，可乘坐地铁1号线到烈士墓站，再转乘公交或出租车前往。</p>
+                `
+            },
+            'zhazidong-details': {
+                title: '渣滓洞',
+                content: `
+                    <p><strong>历史意义：</strong> 渣滓洞原是重庆郊外的一个小煤窑，因渣多煤少而得名。1939年，国民党军统特务逼死矿主，霸占煤窑，在此设立了监狱。分内外两院，外院为特务办公室、刑讯室等，内院一楼一底16间房间为男牢，另有两间平房为女牢。</p>
+                    <p><strong>关押人物：</strong> 这里曾关押过江竹筠（江姐）、许建业、何雪松等革命者，最多时达三百余人。1949年11月27日国民党特务在溃逃前夕策划了震惊中外的大屠杀，仅15人脱险。</p>
+                    <p><strong>参观价值：</strong> 渣滓洞是国民党反动派残酷迫害革命者的重要历史见证，也是革命先烈坚贞不屈、英勇斗争的精神象征。参观渣滓洞可以深入了解中国革命历史的艰辛历程，感受革命先烈的崇高精神。</p>
+                    <div class="modal-gallery">
+                        <img src="https://img0.baidu.com/it/u=1396190442,3123471281&fm=253&app=138&f=JPEG?w=800&h=1067" alt="渣滓洞外观" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://gips2.baidu.com/it/u=2983592544,1533415124&fm=3074&app=3074&f=JPEG?w=1080&h=1410&type=normal&func=" alt="红岩魂广场" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/cdbf6c81800a19d8eacee50e31fa828ba71e46ef" alt="监狱简介" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <p><strong>参观信息：</strong> 开放时间：9:00-17:00（周一闭馆）；免费参观，需提前预约。建议参观时间：1-2小时。</p>
+                    <p><strong>交通指南：</strong> 位于重庆市沙坪坝区歌乐山麓，可乘坐地铁1号线到烈士墓站，再转乘公交或出租车前往。</p>
+                `
+            },
+            'zhude-details': {
+                title: '朱德故居',
+                content: `
+                    <p><strong>历史意义：</strong> 朱德同志故居纪念馆位于四川省仪陇县马鞍镇，是缅怀朱德同志丰功伟绩、进行革命传统教育和爱国主义教育的重要基地。纪念馆于1982年8月1日落成开馆，邓小平同志题写了馆名。</p>
+                    <p><strong>建筑布局：</strong> 纪念馆占地面积约2.6万平方米，建筑面积近5600平方米。展馆使用文献、照片、实物等全面展示了朱德同志为民族独立、人民解放和国家富强建立的不朽功勋。</p>
+                    <p><strong>参观价值：</strong> 朱德故居是了解朱德同志生平事迹和中国革命历史的重要场所。通过参观，可以深入了解朱德同志从一名普通农民成长为中国人民解放军主要创建者之一的历程，感受他为中国革命和建设事业做出的巨大贡献。</p>
+                    <div class="modal-gallery">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/08f790529822720e2b3bc64d7ccb0a46f31fab8b" alt="朱德故居全景" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://p8.itc.cn/q_70/images03/20220804/e8014822714d472ebef8995f31ddc13b.png" alt="朱德故居内部" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2024%2F0912%2F6c1bfb43j00sjojxh003gd000xc00nkm.jpg&thumbnail=660x2147483647&quality=80&type=jpg" alt="朱德故居建筑" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/35a85edf8db1cb131a454984d154564e92584b7c" alt="朱德故居内部" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/4b90f603738da977d94bab79bf51f8198618e378" alt="朱德同志像" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <p><strong>参观信息：</strong> 开放时间：9:00-17:00（周一闭馆）；免费参观，需提前预约。建议参观时间：2-3小时。</p>
+                    <p><strong>交通指南：</strong> 从成都出发，可乘坐长途汽车或自驾前往仪陇县，车程约3-4小时。也可乘坐火车到南充，再转乘汽车前往。</p>
+                `
+            }
+        };
+        
+        // 打开详情模态框
+        document.querySelectorAll('.read-more').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-target');
+                
+                if (detailsData[target]) {
+                    modalTitle.textContent = detailsData[target].title;
+                    modalBody.innerHTML = detailsData[target].content;
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // 防止背景滚动
+                }
+            });
+        });
+        
+        // 关闭模态框
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // 点击模态框外部关闭
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // 图片错误处理
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = 'https://images.unsplash.com/photo-1598979341340-8cc867c5aa25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+            });
+        });
+
+        // 巡游路线游戏功能
+        const progressFill = document.getElementById('progressFill');
+        const tourStops = document.querySelectorAll('.tour-stop');
+        const prevBtn = document.getElementById('prevStop');
+        const nextBtn = document.getElementById('nextStop');
+        const completeBtn = document.getElementById('completeTour');
+        const tourInfo = document.getElementById('tourInfo');
+        
+        let currentStop = 0;
+        const totalStops = tourStops.length - 1;
+        
+        // 巡游景点信息
+        const tourData = [
+            { title: "起点", desc: "欢迎开始红色巡游之旅！点击下一站开始探索川渝地区的红色景点。" },
+            { title: "泸定桥", desc: "泸定桥是中国工农红军长征途中'飞夺泸定桥'战役的发生地，是长征精神的重要象征。" },
+            { title: "白公馆", desc: "白公馆是国民党军统特务机关关押革命志士的秘密监狱，见证了杨虎城将军等烈士的悲壮事迹。" },
+            { title: "渣滓洞", desc: "渣滓洞关押过江竹筠、许晓轩等革命烈士，记录了共产党人在白色恐怖下坚贞不屈的斗争史。" },
+            { title: "朱德故居", desc: "朱德同志故居纪念馆是缅怀朱德同志丰功伟绩、进行革命传统教育和爱国主义教育的重要基地。" },
+            { title: "终点", desc: "恭喜您完成了红色巡游之旅！希望通过这次虚拟巡游，您能更加了解川渝地区的红色历史和文化。" }
+        ];
+        
+        // 更新巡游进度
+        function updateTourProgress() {
+            const progressPercentage = (currentStop / totalStops) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+            
+            // 更新站点状态
+            tourStops.forEach((stop, index) => {
+                stop.classList.remove('active', 'completed');
+                if (index < currentStop) {
+                    stop.classList.add('completed');
+                } else if (index === currentStop) {
+                    stop.classList.add('active');
+                }
+            });
+            
+            // 更新按钮状态
+            prevBtn.disabled = currentStop === 0;
+            nextBtn.disabled = currentStop === totalStops;
+            
+            // 更新信息显示
+            tourInfo.innerHTML = `
+                <h3>${tourData[currentStop].title}</h3>
+                <p>${tourData[currentStop].desc}</p>
+            `;
+            
+            // 滚动到信息区域
+            tourInfo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // 下一站
+        nextBtn.addEventListener('click', function() {
+            if (currentStop < totalStops) {
+                currentStop++;
+                updateTourProgress();
+            }
+        });
+        
+        // 上一站
+        prevBtn.addEventListener('click', function() {
+            if (currentStop > 0) {
+                currentStop--;
+                updateTourProgress();
+            }
+        });
+        
+        // 完成打卡
+        completeBtn.addEventListener('click', function() {
+            alert('恭喜您完成了红色巡游打卡！感谢您对红色文化的关注和支持。');
+        });
+        
+        // 点击站点直接跳转
+        tourStops.forEach((stop, index) => {
+            stop.addEventListener('click', function() {
+                currentStop = index;
+                updateTourProgress();
+            });
+        });
+        
+        // 初始化巡游进度
+        updateTourProgress();
+    </script>
+</body>
+</html>
